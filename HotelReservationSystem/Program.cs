@@ -25,7 +25,6 @@ namespace HotelReservationSystem
                     Console.WriteLine("You have entered invalid entry. Please enter 1-0");
                 }
             }
-            reservation.GetCheapestHotel();
         }
     }
 }

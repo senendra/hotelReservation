@@ -7,15 +7,18 @@ namespace HotelReservationSystem
     class Reservation
     {
         private string hotelName;
-        private int rates;
+        private int weekdaysRates;
+        private int weekendsRates;
         Dictionary<string, AddHotel> dictionary = new Dictionary<string, AddHotel>();
         public void AddDetails()
         {
             Console.Write("Enter Hotel name: ");
             hotelName = Console.ReadLine();
-            Console.Write("Enter Rates : ");
-            rates = Convert.ToInt32(Console.ReadLine());
-            AddHotel add = new AddHotel(hotelName, rates);
+            Console.Write("Enter Weekday Rates per day : ");
+            weekdaysRates = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter Weekend Rates per day : ");
+            weekendsRates = Convert.ToInt32(Console.ReadLine());
+            AddHotel add = new AddHotel(hotelName, weekdaysRates, weekendsRates);
             dictionary.Add(hotelName, add);
         }
         public void GetCheapestHotel()
@@ -23,21 +26,21 @@ namespace HotelReservationSystem
             int max = 0, min = 0;
             foreach (var item in dictionary)
             {
-                if (max < item.Value.rates)
+                if (max < item.Value.weekdaysRates)
                 {
-                    max = item.Value.rates;
+                    max = item.Value.weekdaysRates;
                 }
             }
             foreach (var item in dictionary)
             {
-                if (max > item.Value.rates)
+                if (max > item.Value.weekdaysRates)
                 {
-                    min = item.Value.rates;
+                    min = item.Value.weekdaysRates;
                 }
             }
             foreach (var item in dictionary)
             {
-                if (min == item.Value.rates)
+                if (min == item.Value.weekdaysRates)
                 {
                     double sum = min * GetDays();
                     Console.WriteLine("Hotel : " + item.Key + " Total rates: " + sum);
