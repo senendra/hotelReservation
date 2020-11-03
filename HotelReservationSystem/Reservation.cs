@@ -11,6 +11,7 @@ namespace HotelReservationSystem
         private int weekendsRates;
         private int noOfWeekdays = 0;
         private int noOfWeekends = 0;
+        private int rating;
         Dictionary<string, AddHotel> dictionary = new Dictionary<string, AddHotel>();
         public void AddDetails()
         {
@@ -20,7 +21,9 @@ namespace HotelReservationSystem
             weekdaysRates = Convert.ToInt32(Console.ReadLine());
             Console.Write("Enter Weekend Rates per day : ");
             weekendsRates = Convert.ToInt32(Console.ReadLine());
-            AddHotel add = new AddHotel(hotelName, weekdaysRates, weekendsRates);
+            Console.Write("Enter Rating : ");
+            rating = Convert.ToInt32(Console.ReadLine());
+            AddHotel add = new AddHotel(hotelName, weekdaysRates, weekendsRates, rating);
             dictionary.Add(hotelName, add);
         }
         public void GetCheapestHotel()
@@ -74,7 +77,7 @@ namespace HotelReservationSystem
             string day1 = date1.DayOfWeek.ToString(); ;
             Console.WriteLine("Enter checkout date:");
             DateTime date2 = Convert.ToDateTime(Console.ReadLine());
-            if(day1 == "Saturday" || day1 == "Sunday")
+            if (day1 == "Saturday" || day1 == "Sunday")
             {
                 noOfWeekdays = 1;
                 noOfWeekends = 1;
