@@ -149,5 +149,38 @@ namespace HotelReservationSystem
                 Console.WriteLine("Entered date in incorrect formate(dd/mm/yyyy). Try Again!!");
             }
         }
+        public void GetBestRatedHotel()
+        {
+            GetDays();
+            int totalRate = 0, maxRating = 0;
+            string bestRatedHotel = null;
+            foreach (var item in dictionary)
+            {
+                if (maxRating < item.Value.rating)
+                {
+                    maxRating = item.Value.rating;
+                }
+            }
+            foreach (var item in dictionary)
+            {
+                if (maxRating == item.Value.rating)
+                {
+                    switch (check)
+                    {
+                        case 1:
+                            totalRate = item.Value.weekendsRates * 2;
+                            break;
+                        case 2:
+                            totalRate = item.Value.weekendsRates + item.Value.weekdaysRates;
+                            break;
+                        case 3:
+                            totalRate = item.Value.weekdaysRates * 2;
+                            break;
+                    }
+                    bestRatedHotel = item.Key;
+                }
+            }
+            Console.WriteLine(" Hotel : " + bestRatedHotel + "\n Total Rates : " + totalRate);
+        }
     }
 }
