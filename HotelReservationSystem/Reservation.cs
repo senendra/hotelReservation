@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace HotelReservationSystem
 {
     class Reservation
@@ -25,11 +24,12 @@ namespace HotelReservationSystem
             AddHotel add = new AddHotel(hotelName, weekdaysRates, weekendsRates, rating);
             dictionary.Add(hotelName, add);
         }
-        public void GetCheapestHotel()
+        public void GetCheapestBestRatedHotel()
         {
-            int max = 0, minWeekDay = 0 , minWeekend = 0, maxRating =0, totalRate;
+            int max = 0, minWeekDay = 0 , minWeekend = 0, totalRate;
             GetDays();
             //To get minimum rate on weekdays
+            
             foreach (var item in dictionary)
             {
                 if (max < item.Value.weekdaysRates)
@@ -60,17 +60,6 @@ namespace HotelReservationSystem
                     minWeekend = item.Value.weekendsRates;
                 }
             }
-            ////To get best rated hotel
-            //foreach (var item in dictionary)
-            //{
-            //    if (minWeekDay == item.Value.weekdaysRates || minWeekend == item.Value.weekendsRates)
-            //    {
-            //        if(rating < item.Value.rating)
-            //        {
-            //            rating = item.Value.rating;
-            //        }
-            //    }
-            //}
             switch (check)
             {
                 case 1:
@@ -79,7 +68,7 @@ namespace HotelReservationSystem
                     {
                         if (minWeekend == item.Value.weekendsRates)
                         {
-                            Console.WriteLine("Hotel : " + item.Key + " Total rates: " + totalRate);
+                            Console.WriteLine(" Hotel : " + item.Key + "\n Rating : " + item.Value.rating + "\n Total rates: " + totalRate);
                         }
                     }
                     break;
@@ -89,60 +78,75 @@ namespace HotelReservationSystem
                     {
                         if (minWeekDay == item.Value.weekdaysRates)
                         {
-                            Console.WriteLine("Hotel : " + item.Key + " Total rates: " + totalRate);
+                            Console.WriteLine(" Hotel : " + item.Key + "\n Rating " + item.Value.rating + "\n Total rates: " + totalRate);
                         }
                     }
                     break;
                 case 2:
-                    int sum1 = 0, sum2 = 0;
+                    int sum1 = 0, sum2 = 0, ratingHotel1 = 0, ratingHotel2 = 0;
                     string hotel1 = null, hotel2 = null;
                     foreach (var item in dictionary)
                     {
                         if (minWeekDay == item.Value.weekdaysRates)
                         {
                             sum1 = minWeekDay + item.Value.weekendsRates;
+                            ratingHotel1 = item.Value.rating;
                             hotel1 = item.Key;
                         }
                         if (minWeekend == item.Value.weekendsRates)
                         {
                             sum2 = minWeekend + item.Value.weekdaysRates;
+                            ratingHotel2 = item.Value.rating;
                             hotel2 = item.Key;
                         }
                     }
                     if (sum1 == sum2)
                     {
-                        Console.WriteLine("Hotel : " + hotel1 +" and "+ hotel2 + " Total rates: " + sum1);
+                        if(ratingHotel1 > ratingHotel2)
+                            Console.WriteLine(" Hotel : " + hotel1 + "\n Rating : "+ ratingHotel1 + "\n Total rates : " + sum1);
+                        else if(ratingHotel1 < ratingHotel2)
+                            Console.WriteLine(" Hotel : " + hotel2 + "\n Rating : " + ratingHotel2 + "\n Total rates : " + sum1);
+                        else
+                            Console.WriteLine(" Hotel : " +hotel1+" and "+ hotel2 + "\n Rating : " + ratingHotel2 + "\n Total rates : " + sum1);
+
                     }
                     else if (sum1 > sum2)
                     {
-                        Console.WriteLine("Hotel : " + hotel2 + " Total rates: " + sum2);
+                        Console.WriteLine(" Hotel : " + hotel2 + "\n Rating : " + ratingHotel2 + "\n Total rates : " + sum2);
                     }
                     else
                     {
-                        Console.WriteLine("Hotel : " + hotel1 + " Total rates: " + sum1);
+                        Console.WriteLine(" Hotel : " + hotel1 + "\n Rating : " + ratingHotel1 + "\n Total rates : " + sum1);
                     }
                     break;
             }
         }
         public void GetDays()
         {
-            Console.WriteLine("Enter checkin date:");
-            DateTime date1 = Convert.ToDateTime(Console.ReadLine());
-            string day1 = date1.DayOfWeek.ToString(); ;
-            Console.WriteLine("Enter checkout date:");
-            DateTime date2 = Convert.ToDateTime(Console.ReadLine());
-            string day2 = date2.DayOfWeek.ToString();
-            if (day1 == "Saturday" && day2 == "Sunday")
+            try
             {
-                check = 1;
+                Console.WriteLine("Enter checkin date(dd/mm/yyyy):");
+                DateTime date1 = Convert.ToDateTime(Console.ReadLine());
+                string day1 = date1.DayOfWeek.ToString(); ;
+                Console.WriteLine("Enter checkout date(dd/mm/yyyy):");
+                DateTime date2 = Convert.ToDateTime(Console.ReadLine());
+                string day2 = date2.DayOfWeek.ToString();
+                if (day1 == "Saturday" && day2 == "Sunday")
+                {
+                    check = 1;
+                }
+                else if ((day1 == "Friday" && day2 == "Saturday") || (day1 == "Sunday" && day2 == "Monday"))
+                {
+                    check = 2;
+                }
+                else
+                {
+                    check = 3;
+                }
             }
-            else if ((day1 == "Friday" && day2 == "Saturday") || (day1 == "Sunday" && day2 == "Monday"))
+            catch
             {
-                check = 2;
-            }
-            else
-            {
-                check = 3;
+                Console.WriteLine("Entered date in incorrect formate(dd/mm/yyyy). Try Again!!");
             }
         }
     }
