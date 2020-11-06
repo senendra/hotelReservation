@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Text;
 namespace HotelReservationSystem
 {
@@ -7,15 +9,25 @@ namespace HotelReservationSystem
     {
         private int check;
         Dictionary<string, AddHotel> dictionary = new Dictionary<string, AddHotel>();
-        public void AddDetails()
+        public void AddDetailsRegular()
         {
             AddHotel addLakewood = new AddHotel("Lakewood",110 , 90, 3);
-            dictionary.Add("Lakewood", addLakewood);
+            dictionary.Add("RegularLakewood", addLakewood);
             AddHotel addBridgewood = new AddHotel("Bridgewood", 150, 50, 4);
-            dictionary.Add("Bridgewood", addBridgewood);
+            dictionary.Add("RegularBridgewood", addBridgewood);
             AddHotel addRidgewood = new AddHotel("Ridgewood", 220, 150, 5);
-            dictionary.Add("Ridgewood", addRidgewood);
+            dictionary.Add("RegularRidgewood", addRidgewood);
         }
+        public void AddDetailsRewarded()
+        {
+            AddHotel addLakewood = new AddHotel("Lakewood", 80, 80, 3);
+            dictionary.Add("RewardedLakewood", addLakewood);
+            AddHotel addBridgewood = new AddHotel("Bridgewood", 110, 50, 4);
+            dictionary.Add("RewardedBridgewood", addBridgewood);
+            AddHotel addRidgewood = new AddHotel("Ridgewood", 100, 40, 5);
+            dictionary.Add("RewardedRidgewood", addRidgewood);
+        }
+
         public void GetCheapestBestRatedHotel()
         {
             int max = 0, minWeekDay = 0 , minWeekend = 0, totalRate;
@@ -61,7 +73,7 @@ namespace HotelReservationSystem
                     {
                         if (minWeekend == item.Value.weekendsRates)
                         {
-                            Console.WriteLine(" Hotel : " + item.Key + "\n Rating : " + item.Value.rating + "\n Total rates: " + totalRate);
+                            Console.WriteLine(" Hotel : " + item.Value.hotelName + "\n Rating : " + item.Value.rating + "\n Total rates: " + totalRate);
                         }
                     }
                     break;
@@ -71,7 +83,7 @@ namespace HotelReservationSystem
                     {
                         if (minWeekDay == item.Value.weekdaysRates)
                         {
-                            Console.WriteLine(" Hotel : " + item.Key + "\n Rating " + item.Value.rating + "\n Total rates: " + totalRate);
+                            Console.WriteLine(" Hotel : " + item.Value.hotelName + "\n Rating " + item.Value.rating + "\n Total rates: " + totalRate);
                         }
                     }
                     break;
@@ -84,13 +96,13 @@ namespace HotelReservationSystem
                         {
                             sum1 = minWeekDay + item.Value.weekendsRates;
                             ratingHotel1 = item.Value.rating;
-                            hotel1 = item.Key;
+                            hotel1 = item.Value.hotelName;
                         }
                         if (minWeekend == item.Value.weekendsRates)
                         {
                             sum2 = minWeekend + item.Value.weekdaysRates;
                             ratingHotel2 = item.Value.rating;
-                            hotel2 = item.Key;
+                            hotel2 = item.Value.hotelName;
                         }
                     }
                     if (sum1 == sum2)
@@ -171,7 +183,7 @@ namespace HotelReservationSystem
                             totalRate = item.Value.weekdaysRates * 2;
                             break;
                     }
-                    bestRatedHotel = item.Key;
+                    bestRatedHotel = item.Value.hotelName;
                 }
             }
             Console.WriteLine(" Hotel : " + bestRatedHotel + "\n Total Rates : " + totalRate);

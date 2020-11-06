@@ -7,9 +7,10 @@ namespace HotelReservationSystem
         {
             Console.WriteLine("Welcome to Hotel Reservation Program");
             Reservation reservation = new Reservation();
-            reservation.AddDetails();
+            reservation.AddDetailsRegular();
             reservation.GetCheapestBestRatedHotel();
             reservation.GetBestRatedHotel();
+            reservation.AddDetailsRewarded();
         }
     }
 }
