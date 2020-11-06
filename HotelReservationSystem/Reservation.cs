@@ -5,28 +5,21 @@ namespace HotelReservationSystem
 {
     class Reservation
     {
-        private string hotelName;
-        private int weekdaysRates;
-        private int weekendsRates;
         private int check;
-        private int rating;
         Dictionary<string, AddHotel> dictionary = new Dictionary<string, AddHotel>();
         public void AddDetails()
         {
-            Console.Write("Enter Hotel name: ");
-            hotelName = Console.ReadLine();
-            Console.Write("Enter Weekday Rates per day : ");
-            weekdaysRates = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Enter Weekend Rates per day : ");
-            weekendsRates = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Enter Rating : ");
-            rating = Convert.ToInt32(Console.ReadLine());
-            AddHotel add = new AddHotel(hotelName, weekdaysRates, weekendsRates, rating);
-            dictionary.Add(hotelName, add);
+            AddHotel addLakewood = new AddHotel("Lakewood",110 , 90, 3);
+            dictionary.Add("Lakewood", addLakewood);
+            AddHotel addBridgewood = new AddHotel("Bridgewood", 150, 50, 4);
+            dictionary.Add("Bridgewood", addBridgewood);
+            AddHotel addRidgewood = new AddHotel("Ridgewood", 220, 150, 5);
+            dictionary.Add("Ridgewood", addRidgewood);
         }
         public void GetCheapestBestRatedHotel()
         {
             int max = 0, minWeekDay = 0 , minWeekend = 0, totalRate;
+            Console.WriteLine("\n  Cheapest Best rated hotel");
             GetDays();
             //To get minimum rate on weekdays
             
@@ -107,7 +100,7 @@ namespace HotelReservationSystem
                         else if(ratingHotel1 < ratingHotel2)
                             Console.WriteLine(" Hotel : " + hotel2 + "\n Rating : " + ratingHotel2 + "\n Total rates : " + sum1);
                         else
-                            Console.WriteLine(" Hotel : " +hotel1+" and "+ hotel2 + "\n Rating : " + ratingHotel2 + "\n Total rates : " + sum1);
+                            Console.WriteLine(" Hotel : " +hotel2  + "\n Rating : " + ratingHotel2 + "\n Total rates : " + sum1);
 
                     }
                     else if (sum1 > sum2)
@@ -151,6 +144,7 @@ namespace HotelReservationSystem
         }
         public void GetBestRatedHotel()
         {
+            Console.WriteLine("\n  Best Hotel");
             GetDays();
             int totalRate = 0, maxRating = 0;
             string bestRatedHotel = null;
