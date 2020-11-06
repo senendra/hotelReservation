@@ -158,8 +158,21 @@ namespace HotelReservationSystem
         {
             Console.WriteLine("\n  Best Hotel");
             GetDays();
-            int totalRate = 0, maxRating = 0;
-            string bestRatedHotel = null;
+            int totalRate , maxRating = 0, maxWeekDay = 0, maxWeekend = 0;
+            foreach (var item in dictionary)
+            {
+                if (maxWeekDay < item.Value.weekdaysRates)
+                {
+                    maxWeekDay = item.Value.weekdaysRates;
+                }
+            }
+            foreach (var item in dictionary)
+            {
+                if (maxWeekend < item.Value.weekendsRates)
+                {
+                    maxWeekend = item.Value.weekendsRates;
+                }
+            }
             foreach (var item in dictionary)
             {
                 if (maxRating < item.Value.rating)
@@ -167,26 +180,67 @@ namespace HotelReservationSystem
                     maxRating = item.Value.rating;
                 }
             }
-            foreach (var item in dictionary)
+            switch (check)
             {
-                if (maxRating == item.Value.rating)
-                {
-                    switch (check)
+                case 1:
+                    totalRate = maxWeekend * 2;
+                    foreach (var item in dictionary)
                     {
-                        case 1:
-                            totalRate = item.Value.weekendsRates * 2;
-                            break;
-                        case 2:
-                            totalRate = item.Value.weekendsRates + item.Value.weekdaysRates;
-                            break;
-                        case 3:
-                            totalRate = item.Value.weekdaysRates * 2;
-                            break;
+                        if (maxWeekend == item.Value.weekendsRates)
+                        {
+                            Console.WriteLine(" Hotel : " + item.Value.hotelName + "\n Rating " + item.Value.rating + "\n Total rates: " + totalRate);
+                        }
                     }
-                    bestRatedHotel = item.Value.hotelName;
-                }
+                    break;
+                case 3:
+                    totalRate = maxWeekDay * 2;
+                    foreach (var item in dictionary)
+                    {
+                        if (maxWeekDay == item.Value.weekdaysRates)
+                        {
+                            Console.WriteLine(" Hotel : " + item.Value.hotelName + "\n Rating " + item.Value.rating + "\n Total rates: " + totalRate);
+                        }
+                    }
+                    break;
+                case 2:
+                    int sum1 = 0, sum2 = 0, ratingHotel1 = 0, ratingHotel2 = 0;
+                    string hotel1 = null, hotel2 = null;
+                    foreach (var item in dictionary)
+                    {
+                        if (maxWeekDay == item.Value.weekdaysRates)
+                        {
+                            sum1 = maxWeekDay + item.Value.weekendsRates;
+                            ratingHotel1 = item.Value.rating;
+                            hotel1 = item.Value.hotelName;
+                        }
+                        if (maxWeekend == item.Value.weekendsRates)
+                        {
+                            sum2 = maxWeekend + item.Value.weekdaysRates;
+                            ratingHotel2 = item.Value.rating;
+                            hotel2 = item.Value.hotelName;
+                        }
+                    }
+                    if (sum1 == sum2)
+                    {
+                        if (ratingHotel1 > ratingHotel2)
+                            Console.WriteLine(" Hotel : " + hotel1 + "\n Rating : " + ratingHotel1 + "\n Total rates : " + sum1);
+                        else if (ratingHotel1 < ratingHotel2)
+                            Console.WriteLine(" Hotel : " + hotel2 + "\n Rating : " + ratingHotel2 + "\n Total rates : " + sum1);
+                        else
+                            Console.WriteLine(" Hotel : " + hotel2 + "\n Rating : " + ratingHotel2 + "\n Total rates : " + sum1);
+
+                    }
+                    else if (sum1 > sum2)
+                    {
+                        Console.WriteLine(" Hotel : " + hotel2 + "\n Rating : " + ratingHotel2 + "\n Total rates : " + sum2);
+                    }
+                    else
+                    {
+                        Console.WriteLine(" Hotel : " + hotel1 + "\n Rating : " + ratingHotel1 + "\n Total rates : " + sum1);
+                    }
+                    break;
+
             }
-            Console.WriteLine(" Hotel : " + bestRatedHotel + "\n Total Rates : " + totalRate);
         }
     }
 }
